@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A technoskepticism primer for educators and researchers: the five technoskeptical questions (Civics of Technology), their roots in Neil Postman, and a pedagogical-friction overlay by Micah J. Miner.">
+  <title>Technoskepticism &amp; the Five Technoskeptical Questions | A Primer</title>
+  <style>
+    :root {
+      --ink: #171914;
+      --paper: #f4f0e6;
+      --paper-2: #e8e0d0;
+      --forest: #183c32;
+      --moss: #49735f;
+      --ember: #b84f32;
+      --gold: #d5ae58;
+      --blue: #315d7a;
+      --muted: #6b6b62;
+      --line: rgba(23, 25, 20, .18);
+      --shadow: 0 24px 70px rgba(0, 0, 0, .28);
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Segoe UI", Arial, sans-serif;
+      --mono: Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.5;
+      background:
+        radial-gradient(circle at 92% 4%, rgba(213, 174, 88, .16), transparent 26%),
+        linear-gradient(160deg, var(--paper), #f7f4ed 70%);
+    }
+    a { color: var(--ember); text-underline-offset: 3px; }
+    a:focus-visible, button:focus-visible { outline: 4px solid var(--gold); outline-offset: 3px; }
+
+    .wrap { width: min(100%, 1080px); margin: 0 auto; padding: 0 clamp(20px, 5vw, 48px); }
+
+    h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -.02em; line-height: 1.05; }
+    h1 { font-size: clamp(2.6rem, 6vw, 5rem); margin: 0 0 .3em; }
+    h2 { font-size: clamp(1.9rem, 3.6vw, 3.1rem); margin: 0 0 .35em; }
+    h3 { font-size: clamp(1.15rem, 1.9vw, 1.6rem); line-height: 1.15; margin: 0 0 .4em; }
+    p { margin: 0 0 1em; font-size: clamp(1rem, 1.25vw, 1.18rem); }
+    em { color: var(--ember); font-style: normal; }
+    strong { font-weight: 750; }
+    .kicker, .tag, .micro {
+      font-family: var(--mono);
+      font-size: .78rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    /* Hero */
+    .hero {
+      color: #f6f0df;
+      padding: clamp(54px, 9vw, 110px) 0 clamp(46px, 7vw, 90px);
+      background:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+        radial-gradient(circle at 85% 16%, rgba(184, 79, 50, .28), transparent 30%),
+        linear-gradient(150deg, #10251f, #111713 70%);
+      background-size: 42px 42px, 42px 42px, auto, auto;
+    }
+    .hero .kicker { color: var(--gold); font-weight: 700; }
+    .hero h1 { color: #fff; max-width: 16ch; }
+    .hero .lede { font-family: var(--serif); font-size: clamp(1.25rem, 2.3vw, 2.05rem); line-height: 1.28; max-width: 40ch; color: #efe7d3; }
+    .hero-quote {
+      margin: 34px 0 0;
+      padding-left: clamp(16px, 2.4vw, 30px);
+      border-left: 6px solid var(--gold);
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+      line-height: 1.25;
+      max-width: 42ch;
+      color: #f8f2e2;
+    }
+    .hero-meta { margin-top: 30px; font-size: 1rem; color: rgba(255,255,255,.78); }
+    .hero-meta a { color: var(--gold); }
+
+    section { padding: clamp(46px, 7vw, 86px) 0; }
+    section + section { border-top: 1px solid var(--line); }
+    .section-tag { display: block; margin-bottom: 12px; color: var(--ember); font-weight: 700; }
+    .intro-p { font-size: clamp(1.08rem, 1.5vw, 1.35rem); max-width: 62ch; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 26px); }
+    .card {
+      padding: clamp(20px, 2.4vw, 32px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.55);
+      box-shadow: 0 12px 35px rgba(34, 28, 17, .07);
+    }
+    .card p:last-child { margin-bottom: 0; }
+    .card .tag { display: block; margin-bottom: 10px; color: var(--ember); }
+    .card.is { border-left: 5px solid var(--moss); }
+    .card.isnt { border-left: 5px solid var(--ember); }
+
+    /* Question cards */
+    .q-list { display: grid; gap: clamp(18px, 2.4vw, 28px); margin-top: 14px; }
+    .q-card {
+      position: relative;
+      padding: clamp(22px, 3vw, 40px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.6);
+      box-shadow: 0 14px 40px rgba(34, 28, 17, .08);
+    }
+    .q-head { display: flex; align-items: baseline; gap: clamp(14px, 2vw, 24px); margin-bottom: 14px; }
+    .q-num {
+      flex: 0 0 auto;
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: .8;
+      color: var(--gold);
+    }
+    .q-card h3 { font-size: clamp(1.3rem, 2.4vw, 2.05rem); margin-bottom: .25em; }
+    .q-card .postman { font-style: italic; color: var(--moss); font-family: var(--serif); }
+    .q-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2vw, 26px); margin-top: 8px; }
+    .q-pane .micro { display: block; margin-bottom: 6px; letter-spacing: .12em; }
+    .q-pane.ai .micro { color: var(--blue); }
+    .q-pane.friction .micro { color: var(--ember); }
+    .q-pane p { margin: 0; font-size: clamp(.96rem, 1.18vw, 1.1rem); }
+    .q-pane.friction {
+      padding: 14px 16px;
+      border-left: 4px solid var(--ember);
+      border-radius: 0 12px 12px 0;
+      background: rgba(184, 79, 50, .06);
+    }
+
+    /* Lineage table */
+    .lineage { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: clamp(.92rem, 1.15vw, 1.08rem); }
+    .lineage th, .lineage td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .lineage thead th { font-family: var(--mono); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .lineage tbody th { font-weight: 750; color: var(--forest); width: 44%; }
+    .lineage td { color: var(--ink); }
+
+    /* Cite block */
+    .cite-block {
+      margin-top: 18px;
+      padding: clamp(18px, 2.4vw, 30px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.7);
+    }
+    .cite-block ul { margin: 0; padding-left: 1.2em; }
+    .cite-block li { margin-bottom: .7em; font-size: clamp(.92rem, 1.12vw, 1.05rem); line-height: 1.45; }
+    .cite-block li:last-child { margin-bottom: 0; }
+
+    .source-note { font-size: .95rem; color: var(--muted); max-width: 64ch; }
+
+    /* Link cloud / footer */
+    .link-cloud { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 11px 18px;
+      border: 2px solid var(--forest);
+      border-radius: 999px;
+      color: #fff;
+      background: var(--forest);
+      font-weight: 700;
+      font-size: clamp(.85rem, 1vw, 1rem);
+      text-decoration: none;
+      transition: transform .18s ease, background .18s ease;
+    }
+    .link-btn:hover { transform: translateY(-2px); background: var(--moss); }
+    .link-btn.ghost { color: var(--forest); background: transparent; }
+    .link-btn.ghost:hover { color: #fff; background: var(--forest); }
+
+    footer { color: #efe7d3; padding: clamp(40px, 6vw, 70px) 0; background: linear-gradient(150deg, #10251f, #111713 70%); }
+    footer h2 { color: #fff; }
+    footer p { color: rgba(255,255,255,.8); }
+    footer .micro { color: var(--gold); }
+
+    @media (max-width: 760px) {
+      .grid-2, .q-body { grid-template-columns: 1fr; }
+      .q-head { flex-direction: column; gap: 4px; }
+      .lineage thead { display: none; }
+      .lineage tbody th, .lineage td { display: block; width: auto; border-bottom: none; padding: 4px 0; }
+      .lineage tr { display: block; padding: 14px 0; border-bottom: 1px solid var(--line); }
+      .lineage tbody th { color: var(--forest); }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .hero, footer { color: #111; background: #fff; }
+      .hero h1, .hero-quote, footer h2 { color: #111; }
+      .link-cloud { display: none; }
+      .q-card, .card { break-inside: avoid; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <span class="kicker">A Primer · Civics of Technology · Pedagogical Friction</span>
+      <h1>Technoskepticism</h1>
+      <p class="lede">Neither rejection nor surrender. A disciplined way of asking whether technological change stays answerable to human and educational purposes.</p>
+      <p class="hero-quote">Technoskepticism is not opposition to technology. It is an insistence that technological change remain answerable to human purposes.</p>
+      <p class="hero-meta">Compiled by Micah J. Miner · <a href="https://micahminer.com/" target="_blank" rel="noopener">micahminer.com</a> · A companion to the AAACS 2026 presentation <em>Pedagogical Friction as Subversive Praxis</em></p>
+    </div>
+  </header>
+
+  <main>
+    <section id="what">
+      <div class="wrap">
+        <span class="section-tag tag">What it is</span>
+        <h2>A stance, not a verdict</h2>
+        <p class="intro-p"><strong>Technoskepticism</strong> is the practice of questioning technologies rather than accepting or refusing them on faith. It treats every tool &mdash; including generative AI &mdash; as <em>non-neutral</em>: a thing that carries values, redistributes power, and reorganizes the settings it enters. The point is not to slow innovation but to keep it accountable to the purposes of education.</p>
+        <div class="grid-2" style="margin-top:22px;">
+          <article class="card is">
+            <span class="tag">Technoskepticism is</span>
+            <p>Disciplined questioning. Naming trade-offs, winners and losers, embedded assumptions, ripple effects, and the myths that make a tool feel inevitable.</p>
+          </article>
+          <article class="card isnt">
+            <span class="tag">Technoskepticism is not</span>
+            <p>Technophobia or refusal. It does not assume technologies are bad &mdash; it assumes they are <em>consequential</em>, and that those consequences deserve deliberation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="questions">
+      <div class="wrap">
+        <span class="section-tag tag">The framework</span>
+        <h2>The five technoskeptical questions</h2>
+        <p class="intro-p">Adapted by Dan Krutka and Scott Metzger from Neil Postman&rsquo;s 1998 address, and circulated through the <a href="https://www.civicsoftechnology.org/curriculum" target="_blank" rel="noopener">Civics of Technology</a> curriculum. Each question is paired below with its Postman root, a generative-AI prompt for classrooms, and a <em>pedagogical-friction</em> overlay.</p>
+
+        <div class="q-list">
+          <article class="q-card">
+            <div class="q-head">
+              <span class="q-num">1</span>
+              <div>
+                <h3>What does society give up for the benefits of the technology?</h3>
+                <span class="postman">Postman: every technology is a trade-off &mdash; a Faustian bargain.</span>
+              </div>
+            </div>
+            <div class="q-body">
+              <div class="q-pane ai">
+                <span class="micro">Ask of generative AI</span>
+                <p>When AI drafts the essay or solves the problem, which capacities for attention, authorship, and judgment are quietly traded away?</p>
+              </div>
+              <div class="q-pane friction">
+                <span class="micro">Friction overlay</span>
+                <p>Some of what is &ldquo;given up&rdquo; was the very site of learning. Pedagogical friction asks which difficulties must be protected rather than optimized away.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="q-card">
+            <div class="q-head">
+              <span class="q-num">2</span>
+              <div>
+                <h3>Who is harmed and who benefits from the technology?</h3>
+                <span class="postman">Postman: there are always winners and losers, unevenly distributed.</span>
+              </div>
+            </div>
+            <div class="q-body">
+              <div class="q-pane ai">
+                <span class="micro">Ask of generative AI</span>
+                <p>Who gains time, profit, or authority from AI in schools &mdash; and who absorbs the surveillance, deskilling, and exclusion?</p>
+              </div>
+              <div class="q-pane friction">
+                <span class="micro">Friction overlay</span>
+                <p>The same difficulty can develop one student and shut out another. This is the line between <em>productive</em> friction that builds capacity and <em>exclusionary</em> friction that restricts access.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="q-card">
+            <div class="q-head">
+              <span class="q-num">3</span>
+              <div>
+                <h3>What does the technology need?</h3>
+                <span class="postman">Postman: every technology carries an embedded idea and makes demands.</span>
+              </div>
+            </div>
+            <div class="q-body">
+              <div class="q-pane ai">
+                <span class="micro">Ask of generative AI</span>
+                <p>What does generative AI require to work &mdash; student data, constant connectivity, and a definition of learning as efficient completion?</p>
+              </div>
+              <div class="q-pane friction">
+                <span class="micro">Friction overlay</span>
+                <p>What a tool needs reveals what it assumes. Surfacing the premise that learning is frictionless completion is precisely what pedagogical friction contests.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="q-card">
+            <div class="q-head">
+              <span class="q-num">4</span>
+              <div>
+                <h3>What are the unintended or unexpected changes caused by the technology?</h3>
+                <span class="postman">Postman: technological change is ecological, not additive.</span>
+              </div>
+            </div>
+            <div class="q-body">
+              <div class="q-pane ai">
+                <span class="micro">Ask of generative AI</span>
+                <p>How does AI reshape assessment, teacher judgment, student relationships, and curricular authority &mdash; all at once, not one at a time?</p>
+              </div>
+              <div class="q-pane friction">
+                <span class="micro">Friction overlay</span>
+                <p>Curriculum is distributed across instruction, product design, procurement, policy, and defaults. Removing friction in one place relocates it &mdash; rarely removes it.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="q-card">
+            <div class="q-head">
+              <span class="q-num">5</span>
+              <div>
+                <h3>Why is it difficult to imagine our world without the technology?</h3>
+                <span class="postman">Postman: media tend to become mythic &mdash; natural, neutral, inevitable.</span>
+              </div>
+            </div>
+            <div class="q-body">
+              <div class="q-pane ai">
+                <span class="micro">Ask of generative AI</span>
+                <p>When did &ldquo;AI is inevitable in schools&rdquo; stop being a claim to argue and start feeling like weather to endure?</p>
+              </div>
+              <div class="q-pane friction">
+                <span class="micro">Friction overlay</span>
+                <p>Pedagogical friction is the refusal to let efficiency become the unquestioned purpose of education &mdash; reopening the curricular choices that myth has closed off from deliberation.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="lineage">
+      <div class="wrap">
+        <span class="section-tag tag">Provenance</span>
+        <h2>Two frameworks, one lineage</h2>
+        <p class="intro-p">The technoskeptical questions are an adaptation, not a replacement. They translate Postman&rsquo;s five propositions about technological change into questions a class can actually ask. Questions 1, 2, 4, and 5 track Postman closely; question 3 reframes his claim that every technology carries an embedded idea into what the technology <em>demands</em> of us.</p>
+        <table class="lineage">
+          <thead>
+            <tr><th scope="col">Postman (1998) &mdash; five propositions</th><th scope="col">Civics of Technology &mdash; five technoskeptical questions</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">1. Every technology is a trade-off (a price is always paid).</th><td>What does society give up for the benefits of the technology?</td></tr>
+            <tr><th scope="row">2. There are always winners and losers.</th><td>Who is harmed and who benefits from the technology?</td></tr>
+            <tr><th scope="row">3. Every technology has an embedded idea or philosophy.</th><td>What does the technology need?</td></tr>
+            <tr><th scope="row">4. Technological change is ecological, not additive.</th><td>What are the unintended or unexpected changes caused by the technology?</td></tr>
+            <tr><th scope="row">5. Media tend to become mythic &mdash; perceived as part of the natural order.</th><td>Why is it difficult to imagine our world without the technology?</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="friction">
+      <div class="wrap">
+        <span class="section-tag tag">The overlay</span>
+        <h2>From skeptical questions to a curricular stance</h2>
+        <p class="intro-p">Technoskepticism asks <em>whether</em> a technology serves our purposes. <strong>Pedagogical friction</strong> asks the next question: which difficulties are doing the educational work, so that we protect them instead of automating them away. The five questions surface the trade-offs; the friction lens decides which forms of struggle are worth keeping.</p>
+        <div class="grid-2" style="margin-top:20px;">
+          <article class="card is">
+            <span class="tag">Productive friction</span>
+            <p>Difficulty that builds capacity &mdash; cognitive labor, rhetorical struggle, ownership of one&rsquo;s thinking, and institutional deliberation. The kind that must <em>not</em> disappear.</p>
+          </article>
+          <article class="card isnt">
+            <span class="tag">Exclusionary friction</span>
+            <p>Difficulty that restricts access &mdash; barriers that shut learners out rather than develop them. The kind that should be removed or redesigned.</p>
+          </article>
+        </div>
+        <p style="margin-top:22px;" class="intro-p">Pedagogical friction keeps the curriculum conversation from being <em>auto-completed</em>.</p>
+      </div>
+    </section>
+
+    <section id="cite">
+      <div class="wrap">
+        <span class="section-tag tag">Use &amp; attribution</span>
+        <h2>Sources and how to cite</h2>
+        <p class="source-note">The five technoskeptical questions are quoted as worded on the Civics of Technology curriculum page. Always cite the originating frameworks alongside this primer; this page is a teaching synthesis, not a primary source.</p>
+        <div class="cite-block">
+          <ul>
+            <li>Postman, N. (1998). <em>Five things we need to know about technological change</em> [Address]. Denver, Colorado.</li>
+            <li>Civics of Technology. (n.d.). <em>Curriculum: The five technoskeptical questions</em> (D. Krutka &amp; S. Metzger, adapt.). <a href="https://www.civicsoftechnology.org/curriculum" target="_blank" rel="noopener">civicsoftechnology.org/curriculum</a></li>
+            <li>Miner, M. J. (2026). <em>Pedagogical friction as subversive praxis</em> [Conference presentation]. American Association for the Advancement of Curriculum Studies. <a href="https://minerclass.github.io/aaacs-2026-pedagogical-friction/" target="_blank" rel="noopener">Presentation</a> &middot; <a href="https://micahminer.com/" target="_blank" rel="noopener">micahminer.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="micro">Continue the conversation</span>
+      <h2 style="margin-top:10px;">Where this primer is used</h2>
+      <p style="max-width:54ch;">Built as a reusable anchor for the AAACS 2026 presentation, the dissertation proposal, and related writing on AI, curriculum, and pedagogical friction.</p>
+      <div class="link-cloud">
+        <a class="link-btn" href="https://minerclass.github.io/aaacs-2026-pedagogical-friction/" target="_blank" rel="noopener">AAACS 2026 presentation &rarr;</a>
+        <a class="link-btn" href="https://minerclass.github.io/dissertationquestionsbeta/dissertation-sites/" target="_blank" rel="noopener">Dissertation ecosystem &rarr;</a>
+        <a class="link-btn" href="https://micahminer.com/" target="_blank" rel="noopener">micahminer.com &rarr;</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
