@@ -98,27 +98,53 @@
     .card.is { border-left: 5px solid var(--moss); }
     .card.isnt { border-left: 5px solid var(--ember); }
 
-    /* Question cards */
-    .q-list { display: grid; gap: clamp(18px, 2.4vw, 28px); margin-top: 14px; }
-    .q-card {
-      position: relative;
-      padding: clamp(22px, 3vw, 40px);
+    /* Question explorer */
+    .q-explorer {
+      display: grid;
+      grid-template-columns: minmax(230px, .46fr) minmax(0, 1fr);
+      margin-top: 16px;
       border: 1px solid var(--line);
       border-radius: 22px;
+      overflow: hidden;
       background: rgba(255,255,255,.6);
       box-shadow: 0 14px 40px rgba(34, 28, 17, .08);
     }
-    .q-head { display: flex; align-items: baseline; gap: clamp(14px, 2vw, 24px); margin-bottom: 14px; }
-    .q-num {
-      flex: 0 0 auto;
-      font-family: var(--serif);
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      line-height: .8;
-      color: var(--gold);
+    .q-tabs { display: grid; background: var(--forest); }
+    .q-tab {
+      display: grid;
+      grid-template-columns: 2.2rem 1fr;
+      gap: .8rem;
+      align-items: center;
+      min-height: 4.8rem;
+      padding: 1rem 1.1rem;
+      border: 0;
+      border-bottom: 1px solid rgba(246, 240, 223, .15);
+      background: transparent;
+      color: rgba(246, 240, 223, .82);
+      font: inherit;
+      font-weight: 750;
+      text-align: left;
+      cursor: pointer;
+      transition: background .18s ease, color .18s ease;
     }
-    .q-card h3 { font-size: clamp(1.3rem, 2.4vw, 2.05rem); margin-bottom: .25em; }
-    .q-card .postman { font-style: italic; color: var(--moss); font-family: var(--serif); }
-    .q-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2vw, 26px); margin-top: 8px; }
+    .q-tab:last-child { border-bottom: 0; }
+    .q-tab:hover, .q-tab[aria-selected="true"] { background: rgba(246, 240, 223, .1); color: #fff; }
+    .q-tab:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+    .q-tab .num {
+      display: grid;
+      place-items: center;
+      width: 2.2rem;
+      height: 2.2rem;
+      border: 1px solid rgba(246, 240, 223, .4);
+      border-radius: 10px;
+      font-family: var(--serif);
+      font-weight: 700;
+    }
+    .q-tab[aria-selected="true"] .num { border-color: var(--gold); background: var(--gold); color: #1d1a12; }
+    .q-panel { min-height: 25rem; display: grid; align-content: center; gap: 14px; padding: clamp(22px, 3vw, 40px); }
+    .q-panel .postman { margin: 0; font-family: var(--serif); font-style: italic; color: var(--moss); font-size: clamp(1rem, 1.3vw, 1.2rem); }
+    .q-panel h3 { margin: 0; max-width: 22ch; color: var(--forest); font-size: clamp(1.4rem, 2.6vw, 2.3rem); }
+    .q-subs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 4px; }
     .q-pane .micro { display: block; margin-bottom: 6px; letter-spacing: .12em; }
     .q-pane.ai .micro { color: var(--blue); }
     .q-pane.friction .micro { color: var(--ember); }
@@ -129,6 +155,26 @@
       border-radius: 0 12px 12px 0;
       background: rgba(184, 79, 50, .06);
     }
+
+    /* Applied stance band */
+    .practice-band {
+      color: #f6f0df;
+      background:
+        radial-gradient(circle at 86% 14%, rgba(184, 79, 50, .24), transparent 30%),
+        linear-gradient(150deg, #10251f, #111713 72%);
+    }
+    .practice-band .section-tag { color: var(--gold); }
+    .practice-band h2 { color: #fff; }
+    .practice-band .intro-p { color: rgba(246, 240, 223, .82); }
+    .stance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2vw, 22px); margin-top: 24px; }
+    .stance {
+      padding: clamp(18px, 2.2vw, 28px);
+      border: 1px solid rgba(246, 240, 223, .2);
+      border-radius: 16px;
+      background: rgba(246, 240, 223, .06);
+    }
+    .stance h3 { margin: 0 0 .5em; color: var(--gold); font-family: var(--sans); font-size: clamp(1rem, 1.3vw, 1.2rem); font-weight: 800; }
+    .stance p { margin: 0; color: rgba(246, 240, 223, .85); font-size: clamp(.95rem, 1.15vw, 1.08rem); }
 
     /* Lineage table */
     .lineage { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: clamp(.92rem, 1.15vw, 1.08rem); }
@@ -177,8 +223,9 @@
     footer .micro { color: var(--gold); }
 
     @media (max-width: 760px) {
-      .grid-2, .q-body { grid-template-columns: 1fr; }
-      .q-head { flex-direction: column; gap: 4px; }
+      .grid-2, .q-subs, .stance-grid { grid-template-columns: 1fr; }
+      .q-explorer { grid-template-columns: 1fr; }
+      .q-panel { min-height: 0; }
       .lineage thead { display: none; }
       .lineage tbody th, .lineage td { display: block; width: auto; border-bottom: none; padding: 4px 0; }
       .lineage tr { display: block; padding: 14px 0; border-bottom: 1px solid var(--line); }
@@ -187,10 +234,10 @@
 
     @media print {
       body { background: #fff; }
-      .hero, footer { color: #111; background: #fff; }
-      .hero h1, .hero-quote, footer h2 { color: #111; }
+      .hero, footer, .practice-band { color: #111; background: #fff; }
+      .hero h1, .hero-quote, footer h2, .practice-band h2 { color: #111; }
       .link-cloud { display: none; }
-      .q-card, .card { break-inside: avoid; box-shadow: none; }
+      .q-explorer, .card, .stance { break-inside: avoid; box-shadow: none; }
     }
   </style>
 </head>
@@ -228,108 +275,17 @@
       <div class="wrap">
         <span class="section-tag tag">The framework</span>
         <h2>The five technoskeptical questions</h2>
-        <p class="intro-p">Adapted by Dan Krutka and Scott Metzger from Neil Postman&rsquo;s 1998 address, and circulated through the <a href="https://www.civicsoftechnology.org/curriculum" target="_blank" rel="noopener">Civics of Technology</a> curriculum. Each question is paired below with its Postman root, a generative-AI prompt for classrooms, and a <em>pedagogical-friction</em> overlay.</p>
+        <p class="intro-p">Adapted by Dan Krutka and Scott Metzger from Neil Postman&rsquo;s 1998 address, and circulated through the <a href="https://www.civicsoftechnology.org/curriculum" target="_blank" rel="noopener">Civics of Technology</a> curriculum. Select a question for its Postman root, a generative-AI classroom prompt, and a <em>pedagogical-friction</em> overlay.</p>
 
-        <div class="q-list">
-          <article class="q-card">
-            <div class="q-head">
-              <span class="q-num">1</span>
-              <div>
-                <h3>What does society give up for the benefits of the technology?</h3>
-                <span class="postman">Postman: every technology is a trade-off &mdash; a Faustian bargain.</span>
-              </div>
-            </div>
-            <div class="q-body">
-              <div class="q-pane ai">
-                <span class="micro">Ask of generative AI</span>
-                <p>When AI drafts the essay or solves the problem, which capacities for attention, authorship, and judgment are quietly traded away?</p>
-              </div>
-              <div class="q-pane friction">
-                <span class="micro">Friction overlay</span>
-                <p>Some of what is &ldquo;given up&rdquo; was the very site of learning. Pedagogical friction asks which difficulties must be protected rather than optimized away.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="q-card">
-            <div class="q-head">
-              <span class="q-num">2</span>
-              <div>
-                <h3>Who is harmed and who benefits from the technology?</h3>
-                <span class="postman">Postman: there are always winners and losers, unevenly distributed.</span>
-              </div>
-            </div>
-            <div class="q-body">
-              <div class="q-pane ai">
-                <span class="micro">Ask of generative AI</span>
-                <p>Who gains time, profit, or authority from AI in schools &mdash; and who absorbs the surveillance, deskilling, and exclusion?</p>
-              </div>
-              <div class="q-pane friction">
-                <span class="micro">Friction overlay</span>
-                <p>The same difficulty can develop one student and shut out another. This is the line between <em>productive</em> friction that builds capacity and <em>exclusionary</em> friction that restricts access.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="q-card">
-            <div class="q-head">
-              <span class="q-num">3</span>
-              <div>
-                <h3>What does the technology need?</h3>
-                <span class="postman">Postman: every technology carries an embedded idea and makes demands.</span>
-              </div>
-            </div>
-            <div class="q-body">
-              <div class="q-pane ai">
-                <span class="micro">Ask of generative AI</span>
-                <p>What does generative AI require to work &mdash; student data, constant connectivity, and a definition of learning as efficient completion?</p>
-              </div>
-              <div class="q-pane friction">
-                <span class="micro">Friction overlay</span>
-                <p>What a tool needs reveals what it assumes. Surfacing the premise that learning is frictionless completion is precisely what pedagogical friction contests.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="q-card">
-            <div class="q-head">
-              <span class="q-num">4</span>
-              <div>
-                <h3>What are the unintended or unexpected changes caused by the technology?</h3>
-                <span class="postman">Postman: technological change is ecological, not additive.</span>
-              </div>
-            </div>
-            <div class="q-body">
-              <div class="q-pane ai">
-                <span class="micro">Ask of generative AI</span>
-                <p>How does AI reshape assessment, teacher judgment, student relationships, and curricular authority &mdash; all at once, not one at a time?</p>
-              </div>
-              <div class="q-pane friction">
-                <span class="micro">Friction overlay</span>
-                <p>Curriculum is distributed across instruction, product design, procurement, policy, and defaults. Removing friction in one place relocates it &mdash; rarely removes it.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="q-card">
-            <div class="q-head">
-              <span class="q-num">5</span>
-              <div>
-                <h3>Why is it difficult to imagine our world without the technology?</h3>
-                <span class="postman">Postman: media tend to become mythic &mdash; natural, neutral, inevitable.</span>
-              </div>
-            </div>
-            <div class="q-body">
-              <div class="q-pane ai">
-                <span class="micro">Ask of generative AI</span>
-                <p>When did &ldquo;AI is inevitable in schools&rdquo; stop being a claim to argue and start feeling like weather to endure?</p>
-              </div>
-              <div class="q-pane friction">
-                <span class="micro">Friction overlay</span>
-                <p>Pedagogical friction is the refusal to let efficiency become the unquestioned purpose of education &mdash; reopening the curricular choices that myth has closed off from deliberation.</p>
-              </div>
-            </div>
-          </article>
+        <div class="q-explorer">
+          <div class="q-tabs" role="tablist" aria-label="The five technoskeptical questions" aria-orientation="vertical">
+            <button class="q-tab" id="tab-tradeoff" role="tab" aria-selected="true" aria-controls="q-panel" data-q="tradeoff"><span class="num">1</span><span>What does society give up?</span></button>
+            <button class="q-tab" id="tab-distribution" role="tab" aria-selected="false" aria-controls="q-panel" tabindex="-1" data-q="distribution"><span class="num">2</span><span>Who is harmed and who benefits?</span></button>
+            <button class="q-tab" id="tab-need" role="tab" aria-selected="false" aria-controls="q-panel" tabindex="-1" data-q="need"><span class="num">3</span><span>What does the technology need?</span></button>
+            <button class="q-tab" id="tab-ecology" role="tab" aria-selected="false" aria-controls="q-panel" tabindex="-1" data-q="ecology"><span class="num">4</span><span>What unintended changes follow?</span></button>
+            <button class="q-tab" id="tab-myth" role="tab" aria-selected="false" aria-controls="q-panel" tabindex="-1" data-q="myth"><span class="num">5</span><span>Why is it hard to imagine life without it?</span></button>
+          </div>
+          <article class="q-panel" id="q-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-tradeoff"></article>
         </div>
       </div>
     </section>
@@ -373,6 +329,32 @@
       </div>
     </section>
 
+    <section id="practice" class="practice-band">
+      <div class="wrap">
+        <span class="section-tag tag">Applied stance</span>
+        <h2>Putting the questions to work</h2>
+        <p class="intro-p">Technoskepticism earns its keep when it moves from abstract caution to disciplined review. For a practitioner-scholar leading technology across schools, the five questions sharpen four everyday decisions.</p>
+        <div class="stance-grid">
+          <article class="stance">
+            <h3>AI governance</h3>
+            <p>Ask how a system handles data, privacy, bias, procurement, vendor power, staff workload, and long-term institutional dependence before treating it as a classroom solution.</p>
+          </article>
+          <article class="stance">
+            <h3>Curriculum</h3>
+            <p>Ask whether the tool preserves the interpretive, rhetorical, and reflective work through which students build durable understanding.</p>
+          </article>
+          <article class="stance">
+            <h3>Equity</h3>
+            <p>Ask which difficulties build capacity and which restrict access, participation, or demonstration without educational benefit.</p>
+          </article>
+          <article class="stance">
+            <h3>Public responsibility</h3>
+            <p>Ask when convenience, efficiency, or polish begins to displace human judgment, professional deliberation, and democratic accountability.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="cite">
       <div class="wrap">
         <span class="section-tag tag">Use &amp; attribution</span>
@@ -401,5 +383,75 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    const Q = {
+      tradeoff: {
+        q: "What does society give up for the benefits of the technology?",
+        postman: "Postman: every technology is a trade-off &mdash; a Faustian bargain.",
+        ai: "When AI drafts the essay or solves the problem, which capacities for attention, authorship, and judgment are quietly traded away?",
+        friction: "Some of what is &ldquo;given up&rdquo; was the very site of learning. Pedagogical friction asks which difficulties must be protected rather than optimized away."
+      },
+      distribution: {
+        q: "Who is harmed and who benefits from the technology?",
+        postman: "Postman: there are always winners and losers, unevenly distributed.",
+        ai: "Who gains time, profit, or authority from AI in schools &mdash; and who absorbs the surveillance, deskilling, and exclusion?",
+        friction: "The same difficulty can develop one student and shut out another. This is the line between <em>productive</em> friction that builds capacity and <em>exclusionary</em> friction that restricts access."
+      },
+      need: {
+        q: "What does the technology need?",
+        postman: "Postman: every technology carries an embedded idea and makes demands.",
+        ai: "What does generative AI require to work &mdash; student data, constant connectivity, and a definition of learning as efficient completion?",
+        friction: "What a tool needs reveals what it assumes. Surfacing the premise that learning is frictionless completion is precisely what pedagogical friction contests."
+      },
+      ecology: {
+        q: "What are the unintended or unexpected changes caused by the technology?",
+        postman: "Postman: technological change is ecological, not additive.",
+        ai: "How does AI reshape assessment, teacher judgment, student relationships, and curricular authority &mdash; all at once, not one at a time?",
+        friction: "Curriculum is distributed across instruction, product design, procurement, policy, and defaults. Removing friction in one place relocates it &mdash; rarely removes it."
+      },
+      myth: {
+        q: "Why is it difficult to imagine our world without the technology?",
+        postman: "Postman: media tend to become mythic &mdash; natural, neutral, inevitable.",
+        ai: "When did &ldquo;AI is inevitable in schools&rdquo; stop being a claim to argue and start feeling like weather to endure?",
+        friction: "Pedagogical friction is the refusal to let efficiency become the unquestioned purpose of education &mdash; reopening the curricular choices that myth has closed off from deliberation."
+      }
+    };
+
+    const tabs = [...document.querySelectorAll(".q-tab")];
+    const panel = document.getElementById("q-panel");
+
+    function render(key) {
+      const d = Q[key];
+      panel.setAttribute("aria-labelledby", "tab-" + key);
+      panel.innerHTML =
+        '<p class="postman">' + d.postman + "</p>" +
+        "<h3>" + d.q + "</h3>" +
+        '<div class="q-subs">' +
+          '<div class="q-pane ai"><span class="micro">Ask of generative AI</span><p>' + d.ai + "</p></div>" +
+          '<div class="q-pane friction"><span class="micro">Friction overlay</span><p>' + d.friction + "</p></div>" +
+        "</div>";
+      tabs.forEach((t) => {
+        const selected = t.dataset.q === key;
+        t.setAttribute("aria-selected", selected ? "true" : "false");
+        t.tabIndex = selected ? 0 : -1;
+      });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => render(tab.dataset.q));
+      tab.addEventListener("keydown", (event) => {
+        const step = event.key === "ArrowDown" || event.key === "ArrowRight" ? 1
+          : event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 0;
+        if (!step) return;
+        event.preventDefault();
+        const next = tabs[(index + step + tabs.length) % tabs.length];
+        next.focus();
+        render(next.dataset.q);
+      });
+    });
+
+    render("tradeoff");
+  </script>
 </body>
 </html>
